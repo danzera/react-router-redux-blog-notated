@@ -8,9 +8,9 @@ import { createStore, applyMiddleware } from 'redux';
 // It provides the configuration of what components to show based on the URL.
 import { BrowserRouter, Route} from 'react-router-dom';
 
+import reducers from './reducers';
 import Header from './components/Header';
 import PostsIndex from './components/PostsIndex';
-import reducers from './reducers';
 
 const createStoreWithMiddleware = applyMiddleware()(createStore);
 
@@ -22,12 +22,14 @@ const createStoreWithMiddleware = applyMiddleware()(createStore);
 // 2. component={___} - specifies what <Component /> to show the corresponding path is hit
 // Can also put <Component />'s directly inside of our <BrowserRouter> - THESE SHOW IN EVERY ROUTE
 // --> This would be the way to handle a header/footer and such.
+// NOTE: PUTTING THE KEYWORD "exact" inside our base '/' <Route /> component prevents it from showing all the time
+// --> otherwise it would still show up in every route, the same as just including a component reference directly inside our <div>, i.e. not in a <Route /> component
 ReactDOM.render(
   <Provider store={createStoreWithMiddleware(reducers)}>
     <BrowserRouter>
 			<div>
 				<Header />
-				<Route path="/" component={PostsIndex} />
+				<Route exact path="/" component={PostsIndex} />
 			</div>
 		</BrowserRouter>
   </Provider>
