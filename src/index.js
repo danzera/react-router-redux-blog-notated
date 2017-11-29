@@ -8,19 +8,11 @@ import { createStore, applyMiddleware } from 'redux';
 // It provides the configuration of what components to show based on the URL.
 import { BrowserRouter, Route} from 'react-router-dom';
 
-import App from './components/app';
+import Header from './components/Header';
+import PostsIndex from './components/PostsIndex';
 import reducers from './reducers';
 
 const createStoreWithMiddleware = applyMiddleware()(createStore);
-
-// TEST CLASSES FOR REACT ROUTER EXAMPLE
-class Hello extends React.Component {
-	render() { return <div>Hello</div> }
-}
-
-class Goodbye extends React.Component {
-	render() { return <div>Goodbye</div> }
-}
 
 // <BrowserRouter> tag occurs once, declares a router instance
 // We would get an error if all the tags inside of it were NOT nested in side of one <div> tag => "A <router> may have only one child element"
@@ -34,9 +26,8 @@ ReactDOM.render(
   <Provider store={createStoreWithMiddleware(reducers)}>
     <BrowserRouter>
 			<div>
-				<Route path="/hello" component={Hello} />
-				<App />
-				<Route path="/goodbye" component={Goodbye} />
+				<Header />
+				<Route path="/" component={PostsIndex} />
 			</div>
 		</BrowserRouter>
   </Provider>
