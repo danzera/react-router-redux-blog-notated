@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
+import ReduxPromise from 'redux-promise';
 // BrowserRouter interacts with the 'History' library, which is a separate library that gets installed as a dependency of React Router DOM
 // It decides what to do based on a URL change => looks at the entire URL when deciding what different components to show on the screen
 // Route is the workhorse of React Router. It's a React component that we can render inside of any other React component in our app.
@@ -12,7 +13,7 @@ import reducers from './reducers';
 import Header from './components/Header';
 import PostsIndex from './components/PostsIndex';
 
-const createStoreWithMiddleware = applyMiddleware()(createStore);
+const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore);
 
 // <BrowserRouter> tag occurs once, declares a router instance
 // We would get an error if all the tags inside of it were NOT nested in side of one <div> tag => "A <router> may have only one child element"
