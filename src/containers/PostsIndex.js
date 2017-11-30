@@ -8,22 +8,28 @@ class PostsIndex extends Component {
 		super(props);
 
 		this.state = {
-			postsFetched: false,
-			posts: props.fetchPosts()
+			posts: {}
 		};
+	}
 
-		console.log('props', props);
-		console.log('state', this.state);
+	componentDidMount() {
+		this.props.fetchPosts().then(res => console.log(res));
+	}
+
+	renderPosts() {
+		console.log('this.state.posts', this.state.posts)
+		return [<div>1</div>,<div>1</div>,<div>1</div>]
 	}
 
 	render() {
 		return (
-			<div>PostsIndex</div>
+			<div>{this.renderPosts()}</div>
 		);
 	}
 }
 
 function mapStateToProps(state) {
+	console.log('mapStateToProps state', state);
 	return { posts: state.posts };
 }
 
