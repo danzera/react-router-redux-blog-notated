@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { fetchPosts } from '../actions'
 
@@ -18,7 +17,7 @@ class PostsIndex extends Component {
 
 	renderPosts() {
 		console.log('this.state.posts', this.state.posts)
-		return [<div>1</div>,<div>1</div>,<div>1</div>]
+		return [<div>1</div>,<div>1</div>,<div>1</div>];
 	}
 
 	render() {
@@ -32,9 +31,12 @@ function mapStateToProps(state) {
 	console.log('mapStateToProps state', state);
 	return { posts: state.posts };
 }
-
-function mapDispatchToProps(dispatch) {
-	return bindActionCreators({ fetchPosts }, dispatch);
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(PostsIndex);
+// we can pass an object to our call of the connect function
+// as opposed to separately defining a mapDispatchToProps() function and passing that
+// this effectively identical in nature to declaring:
+// function mapDispatchToProps(dispatch) {
+//   return bindActionCreators({ fetchPosts }, dispatch);
+// }
+// and passing this to the connect function
+// there will still be times when we want to define mapDispatchToProps() separately in order to do some type of computation
+export default connect(mapStateToProps, { fetchPosts })(PostsIndex);
