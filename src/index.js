@@ -12,6 +12,7 @@ import { BrowserRouter, Route} from 'react-router-dom';
 import reducers from './reducers';
 import Header from './components/Header';
 import PostsIndex from './containers/PostsIndex';
+import NewPost from './components/NewPost';
 
 const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore);
 
@@ -31,6 +32,7 @@ ReactDOM.render(
 			<div>
 				<Header />
 				<Route exact path="/" component={PostsIndex} />
+				<Route path="/posts/new" component={NewPost} />
 			</div>
 		</BrowserRouter>
   </Provider>
