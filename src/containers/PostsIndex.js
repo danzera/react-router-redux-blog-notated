@@ -4,14 +4,6 @@ import { fetchPosts } from '../actions';
 import _ from 'lodash';
 
 class PostsIndex extends Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			posts: {}
-		};
-	}
-
 	// componentDidMount() is one of the React lifecycle methods, of which there are several
 	// lifecycle methods are functions on class-based React components that are AUTOMATICALLY CALLED by React
 	// componentDidMount() runs immediately after the component renders to the DOM
@@ -26,16 +18,12 @@ class PostsIndex extends Component {
 	// --> as opposed to componentWillMount(), which would run twice, once on the server and then again on the client
 	componentDidMount() {
 		// THIS IS WHERE WE FETCH OUR DATA!!!
-		this.props.fetchPosts().then(action => {
-			console.log('posts fetched', action);
-			console.log('props is now', this.props);
-			this.setState({ posts: this.props.posts });
-		});
+		this.props.fetchPosts();
 	}
 
 	renderPosts() {
-		console.log('this.state.posts', this.state.posts);
-		return _.map(this.state.posts, (post, id, posts) => <div key={id}>{post.title}</div>);
+		console.log('this.props.posts', this.props.posts);
+		return _.map(this.props.posts, (post, id, posts) => <div key={id}>{post.title}</div>);
 	}
 
 	render() {
