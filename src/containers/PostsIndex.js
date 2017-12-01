@@ -23,12 +23,26 @@ class PostsIndex extends Component {
 
 	renderPosts() {
 		console.log('this.props.posts', this.props.posts);
-		return _.map(this.props.posts, (post, id, posts) => <div key={id}>{post.title}</div>);
+		// lodash map function can be used to iterate over both arrays and objects
+		// native map function only works with
+		// in the case of an object, _.map() iterates over all key value pairs and the callback receives parameters (value, key, originalObject)
+		return _.map(this.props.posts, (post, id, posts) => {
+			return (
+				<li className="list-group-item" key={id}>
+					{post.title}
+				</li>
+			);
+		});
 	}
 
 	render() {
 		return (
-			<div>{this.renderPosts()}</div>
+			<div>
+				<h3>Posts</h3>
+				<ul className="list-group">
+					{this.renderPosts()}
+				</ul>
+			</div>
 		);
 	}
 }
