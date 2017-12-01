@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+// <Link /> component is used to navigate between different routes within a React Router app
+// it's essentially the same as an anchor tag, but has some built in event handlers
+// the event handlers prevent some default browser behaviors from occuring
+// one in particular is preventing an HTTP request from being sent when the URL changes
+// we don't really want the browser to send another request to the server to fetch another HTML document in this case
+// we just want to tell React Router to show a new set of components
 import { Link } from 'react-router-dom';
 import { fetchPosts } from '../actions';
 import _ from 'lodash';
