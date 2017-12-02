@@ -3,15 +3,18 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import ReduxPromise from 'redux-promise';
-// BrowserRouter interacts with the 'History' library, which is a separate library that gets installed as a dependency of React Router DOM
+// -- BrowserRouter interacts with the 'History' library, which is a separate library that gets installed as a dependency of React Router DOM
 // It decides what to do based on a URL change => looks at the entire URL when deciding what different components to show on the screen
-// Route is the workhorse of React Router. It's a React component that we can render inside of any other React component in our app.
+// -- Route is the workhorse of React Router. It's a React component that we can render inside of any other React component in our app.
 // It provides the configuration of what components to show based on the URL.
-import { BrowserRouter, Route} from 'react-router-dom';
+// -- Switch is a component that takes in a collection of different <Route /> components
+// In practice, a number of different <Route /> components are nested within a <Switch /> component (as shown down below)
+import { BrowserRouter, Route, Switch} from 'react-router-dom';
 
 import reducers from './reducers';
 import Header from './components/Header';
 import PostsIndex from './containers/PostsIndex';
+import NewPost from './components/NewPost';
 
 const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore);
 
@@ -30,7 +33,10 @@ ReactDOM.render(
     <BrowserRouter>
 			<div>
 				<Header />
-				<Route exact path="/" component={PostsIndex} />
+				<Switch>
+					<Route path="/posts/new" component={NewPost} />
+					<Route path="/" component={PostsIndex} />
+				</Switch>
 			</div>
 		</BrowserRouter>
   </Provider>
