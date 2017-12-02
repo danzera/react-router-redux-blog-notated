@@ -18,10 +18,13 @@ export function fetchPosts() {
 	}
 }
 
-export function createPost(post) {
-	console.log('createPost action creator hit', post);
+// we pass a callback function to our action creator
+// this callback gets called in the .then() of our API request
+// it changes our <Route /> location IF OUR POST REQUEST SUCCEEDS
+export function createPost(blogPost, callback) {
+	console.log('createPost action creator hit', blogPost);
 	const url = `${BASE_URL}/posts${API_KEY}`
-	const request = axios.post(url, post);
+	const request = axios.post(url, blogPost).then(() => callback());
 
 	return {
 		type: CREATE_POST,

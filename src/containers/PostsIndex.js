@@ -25,6 +25,9 @@ class PostsIndex extends Component {
 	// --> as opposed to componentWillMount(), which would run twice, once on the server and then again on the client
 	componentDidMount() {
 		// THIS IS WHERE WE FETCH OUR DATA!!!
+		// action creator & reducer handle the assigning of data to our state
+		// and mapStateToProps taps into the Redux store to get access to the state changes
+		// so no need for a .then callback to handle the API response here
 		this.props.fetchPosts();
 	}
 
