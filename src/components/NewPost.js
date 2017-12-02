@@ -7,17 +7,27 @@ import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
 
 class NewPost extends Component {
+	// NOTE: we use the ternary operator to display error messages ONLY AFTER an input field has been touched
+	// this prevents error messages from showing on page load, which would be an undesirable UI effect
+	// clicking the submit button also flips all fields to touched, even if they were never touched, so error messages would show in that case as well
 	renderField(field) {
+		// another ES6 way of destructuring
+		// this declares variables of meta == field.meta, touched == field.meta.touched and error == field.meta.error
+		// really only need touched & error variables, so could just say: const { touched, error } = field.meta to pull those two off the field.meta object
+		// just doing this to show another way of doing destructuring
+		const { meta: { touched, error } } = field;
+		// can use our touched & error values to conditionally determine the className we want to apply to our input fields
+		const className = `form-group ${touched && error ? 'has-danger' : ''}`
 		console.log('field', field);
 		return (
-			<div className="form-group">
+			<div className={className}>
 				<label htmlFor={field.inputId}>{field.label}</label>
 				<input
 					id={field.inputId}
 					className="form-control"
 					type="text"
 					{...field.input} />
-				<small className="form-text text-muted">{field.meta.error}</small>
+				<small className="form-text text-muted">{touched ? error : ''}</small>
 			</div>
 		);
 	}
