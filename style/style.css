@@ -10,3 +10,11 @@ h1 {
 small {
 	color: red !important;
 }
+/*
+this rule will be applied to anchor tags within a form
+since <Link /> components actually render as <a> tags
+this rule will apply to our 'Cancel' button on /posts/new
+*/
+form a {
+	margin-left: 5px;
+}

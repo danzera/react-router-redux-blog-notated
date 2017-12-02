@@ -5,6 +5,9 @@ import React, { Component } from 'react';
 // this lets our component talk directly to the Redux store
 import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
+// need to import the connect function and our action creator for sending our new blog post to the API
+import { connect } from 'react-redux';
+import { createPost } from '../actions';
 
 class NewPost extends Component {
 	// NOTE: we use the ternary operator to display error messages ONLY AFTER an input field has been touched
@@ -39,6 +42,27 @@ class NewPost extends Component {
 	 */
 	onSubmit(values) {
 		console.log('form submitted with values', values);
+		// send new blog post values to action creator for posting to the API
+		// IF POST IS SUCCESSFUL, we'll want to automatically re-route the user back to the list of all posts
+		// this is programmatic navigation and is not an appropriate place for a <Link /> tag, which is used for user-controlled navigation
+		// thankfully, React Router passes in a set of props to our component that's rendered by a <Route />
+		// we can utilize one of these props to handle the programmatic navigation, i.e. to automatically re-route the user
+		console.log('props available, many thanks to React Router', this.props);
+		// the one we are interested in is 'this.props.history'
+		console.log('this.props.history', this.props.history);
+		// which has a method called 'push'
+		console.log('this.props.history.push', this.props.history.push);
+		// if we specify a path defined by one of our <Route /> components
+		// this.props.history.push('path/here'); will immediately switch to that <Route />
+		// --> if we did the following:
+		// this.props.createPost(values);
+		// this.props.history.push('/');
+		// our base <Route /> would load while the async request was being made to the API to create the new post
+		// which would create a race condition for fetching all posts, 50/50 as to whether or not our new post was already created
+		// to prevent the race condition, we call this.props.history.push() from a callback function that we pass to our action creator
+		this.props.createPost(values, () => {
+			this.props.history.push('/');
+		});
 	}
 
 	render() {
@@ -64,9 +88,8 @@ class NewPost extends Component {
 					component={this.renderField}
 					inputId="newPostContent"
 					label="Content" />
-
 				<button className="btn btn-primary" type="submit">Create Post</button>
-				<Link to="/"><input type="button" value="Cancel" /></Link>
+				<Link to="/" className="btn btn-danger">Cancel</Link>
 			</form>
 		);
 	}
@@ -104,6 +127,11 @@ function validate(values) {
 }
 
 // this is how we configure reduxForm, our helper that allows redux-form to talk directly from the component to the formReducer
+// we can stack helper fuctions as well, as we need to do here to utilize both reduxForm() and connect()
+// connect()() returns an enhanced React component
+// so we can run reduxForm(configObj)(connect(mapState, mapDispatch)(OurComponent))
+// just the same as we can run reduxForm(configObj)(OurComponent)
+// the end input to reduxForm just needs to be a React component (with a form element)
 export default reduxForm({
 	validate,
 	// just need to specify some unique string to describe the form
@@ -111,4 +139,4 @@ export default reduxForm({
 	// and will need them to have their own unique strings here
 	// otherwise there would be issues with their state conflicting/interfering with each other
 	form: 'PostsNewForm'
-})(NewPost);
+})(connect(null, { createPost })(NewPost));
