@@ -7,7 +7,7 @@ import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
 // need to import the connect function and our action creator for sending our new blog post to the API
 import { connect } from 'react-redux';
-import { newPost } from '../actions';
+import { createPost } from '../actions';
 
 class NewPost extends Component {
 	// NOTE: we use the ternary operator to display error messages ONLY AFTER an input field has been touched
@@ -43,7 +43,7 @@ class NewPost extends Component {
 	onSubmit(values) {
 		console.log('form submitted with values', values);
 		// send new blog post values to action creator for posting to the API
-		newPost(values);
+		createPost(values);
 	}
 
 	render() {
@@ -115,4 +115,4 @@ export default reduxForm({
 	// and will need them to have their own unique strings here
 	// otherwise there would be issues with their state conflicting/interfering with each other
 	form: 'PostsNewForm'
-})(connect(null, { newPost })(NewPost));
+})(connect(null, { createPost })(NewPost));
