@@ -17,14 +17,31 @@ class NewPost extends Component {
 					className="form-control"
 					type="text"
 					{...field.input} />
+				<small className="form-text text-muted">{field.meta.error}</small>
 			</div>
 		);
 	}
 
+	/**
+	 * we provide this function as a callback to redux-form's handleSubmit function
+	 * this will be called IFF the form is validated
+	 * @param {Object} values - provided by redux-form, contains all of the form's input values
+	 */
+	onSubmit(values) {
+		console.log('form submitted with values', values);
+	}
+
 	render() {
-		console.log('current component-level state', this.state);
+		// pull handleSubmit function off of this.props
+		// provided by the reduxForm() function, much like connect() function provides additional props
+		const { handleSubmit } = this.props;
+		// handleSubmit is called within onSubmit of our form
+		// and is passed a function that we define (above)
+		// handleSubmit runs the redux-form validation
+		// IF everything checks out, then it runs the callback function that we provide
+		// we bind the context of this to give our callback function a reference to the component
 		return (
-			<form onSubmit={this.onFormSubmit}>
+			<form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
 				<Field name="title"
 					component={this.renderField}
 					inputId="newPostTitle"
@@ -38,15 +55,47 @@ class NewPost extends Component {
 					inputId="newPostContent"
 					label="Content" />
 
-				<input type="submit" value="Create Post" />
+				<button className="btn btn-primary" type="submit">Create Post</button>
 				<Link to="/"><input type="button" value="Cancel" /></Link>
 			</form>
 		);
 	}
 }
 
+/**
+ * helper function that we define for validating form values
+ * gets passed to reduxForm() function down below
+ * will automatically be called at certain points in the forms lifecycle
+ * particularly when the user tries to submit the form
+ * @param {Object} values - called 'values' by convention, contains all form values
+ * @returns {Object} - communicates any validation errors, empty object implies there are no errors and form is fine to submit
+ */
+function validate(values) {
+	console.log('validate values', values);
+	// always start off by creating an errors object
+	const errors = {};
+	// then validate the inputs from the 'values' object
+	// add error messages to the errors object as needed
+	if (!values.title) {
+		errors.title = 'Your blog post needs a title...';
+	}
+	if (!values.categories) {
+		errors.categories = 'Provide at least one category for your blog post...';
+	}
+	if (!values.content) {
+		errors.content = 'Your blog post should very well have some content...';
+	}
+
+	console.log('errors in validate function', errors);
+	// return the errors object
+	// if the object is empty, it means the form is fine to submit
+	// if there are ANY properties on the object, redux-form assumes the form is invalid
+	return errors;
+}
+
 // this is how we configure reduxForm, our helper that allows redux-form to talk directly from the component to the formReducer
 export default reduxForm({
+	validate,
 	// just need to specify some unique string to describe the form
 	// will invariably end up with an application that has multiple forms
 	// and will need them to have their own unique strings here
