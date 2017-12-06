@@ -37,10 +37,14 @@ class PostsIndex extends Component {
 		// native map function only works with
 		// in the case of an object, _.map() iterates over all key value pairs and the callback receives parameters (value, key, originalObject)
 		return _.map(this.props.posts, (post, id, posts) => {
+			// construct link for each post to use in JSX
+			const link = `/posts/${id}`
 			return (
-				<li className="list-group-item" key={id}>
-					{post.title}
-				</li>
+				<Link to={link} key={id}>
+					<li className="list-group-item">
+						{post.title}
+					</li>
+				</Link>
 			);
 		});
 	}
