@@ -13,6 +13,7 @@ export default function(state = {}, action) {
 			const posts = _.mapKeys(action.payload.data, 'id');
 			console.log('posts mapped to object', posts);
 			return posts;
+		// include an additional case for the instance of fetching a single post as opposed to fetching the entire list of posts
 		case FETCH_POST:
 			console.log('FETCH_POST action data', action.payload.data);
 			// return an object with the individually fetched post along with all of the original posts data, if any
