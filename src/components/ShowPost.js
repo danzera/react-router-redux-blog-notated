@@ -9,6 +9,7 @@ class ShowPost extends Component {
 		// and mapStateToProps taps into the Redux store to get access to the state changes
 		// so no need for a .then callback to handle the API response here
 		// THIS IS HOW WE ACCESS OUR URL PARAMS
+		// (using more ES6 destructuring to pull the id off of the route params object)
 		const { id } = this.props.match.params;
 		this.props.fetchPost(id);
 	}
@@ -16,15 +17,17 @@ class ShowPost extends Component {
 	render() {
 		console.log('this.props in ShowPost', this.props);
 		console.log('url params in ShowPost', this.props.match.params);
-		const post = this.props.post;
-		// conditionally show loading message until content is returned from the API
+		const { post } = this.props;
+		// conditionally show loading message  until content is returned from the API
 		if (!post) {
 			return <div>Loading...</div>;
 		}
 
 		return (
 			<div>
-				<h2>{post.title}</h2>
+				<h3>{post.title}</h3>
+				<h6>Categories: {post.categories}</h6>
+				<p>{post.content}</p>
 			</div>
 		);
 	}
