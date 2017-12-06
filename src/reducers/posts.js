@@ -1,4 +1,4 @@
-import { FETCH_POSTS } from '../actions';
+import { FETCH_POSTS, FETCH_POST } from '../actions';
 import _ from 'lodash';
 
 // since we are ultimately going to store our state in an object, we default state to an empty object
@@ -13,6 +13,12 @@ export default function(state = {}, action) {
 			const posts = _.mapKeys(action.payload.data, 'id');
 			console.log('posts mapped to object', posts);
 			return posts;
+		case FETCH_POST:
+			console.log('FETCH_POST action data', action.payload.data);
+			// return an object with the individually fetched post along with all of the original posts data, if any
+			const results = {...state};
+			results[action.payload.data.id] = action.payload.data;
+			return results;
 		default:
 			return state;
 	}
