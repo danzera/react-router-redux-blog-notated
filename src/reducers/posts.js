@@ -16,9 +16,12 @@ export default function(state = {}, action) {
 		case FETCH_POST:
 			console.log('FETCH_POST action data', action.payload.data);
 			// return an object with the individually fetched post along with all of the original posts data, if any
-			const results = {...state};
-			results[action.payload.data.id] = action.payload.data;
-			return results;
+			// LONG FORM
+			// const newState = {...state};
+			// newState[action.payload.data.id] = action.payload.data;
+			// return newState;
+			// SHORT FORM WITH MORE ES6...can combine the above steps
+			return {...state, [action.payload.data.id]: action.payload.data};
 		default:
 			return state;
 	}
