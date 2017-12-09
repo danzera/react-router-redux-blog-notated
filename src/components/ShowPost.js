@@ -4,10 +4,6 @@ import { fetchPost, deletePost } from '../actions';
 import { Link } from 'react-router-dom';
 
 class ShowPost extends Component {
-	constructor(props) {
-		super(props);
-		this.delete = this.delete.bind(this);
-	}
 	componentDidMount() {
 		// THIS IS WHERE WE FETCH OUR DATA!!!
 		// action creator & reducer handle the assigning of data to our state
@@ -45,6 +41,7 @@ class ShowPost extends Component {
 			return <div>Loading...</div>;
 		}
 
+		// can also bind the context of 'this' inline as done here for the onClick function
 		return (
 			<div>
 				<Link to="/" className="btn btn-primary">All Posts</Link>
@@ -52,7 +49,7 @@ class ShowPost extends Component {
 				<h6>Categories: {post.categories}</h6>
 				<p>{post.content}</p>
 				<button className="btn btn-danger pull-xs-right"
-					onClick={this.onDeleteClick}>Delete Post</div>
+					onClick={this.onDeleteClick.bind(this)}>Delete Post</button>
 			</div>
 		);
 	}
