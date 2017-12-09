@@ -62,10 +62,16 @@ export function createPost(blogPost, callback) {
 export function deletePost(id, callback) {
 	const url = `${BASE_URL}/posts/${id}${API_KEY}`;
 	const request = axios.delete(url)
-		.then(() => callback());
+		.then((res) => {
+			callback();
+			// when using a .then(), if you still want to return the request as the payload
+			// need to return something in the .then(), in this case the API response
+			// otherwise undefined will be returned and the action won't be caught by redux-promise
+			return res;
+		});
 	
 	return {
 		type: DELETE_POST,
-		payload: id
+		payload: request
 	}
 }

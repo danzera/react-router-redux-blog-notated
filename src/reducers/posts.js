@@ -1,4 +1,4 @@
-import { FETCH_POSTS, FETCH_POST } from '../actions';
+import { FETCH_POSTS, FETCH_POST, DELETE_POST } from '../actions';
 import _ from 'lodash';
 
 // since we are ultimately going to store our state in an object, we default state to an empty object
@@ -23,6 +23,13 @@ export default function(state = {}, action) {
 			// return newState;
 			// SHORT FORM WITH MORE ES6...can combine the above steps
 			return {...state, [action.payload.data.id]: action.payload.data};
+		case DELETE_POST:
+			console.log('DELETE_POST action', action);
+			const { id } = action.payload.data;
+			console.log('current state', state);
+			// use lodash _.omit() function to return new state without the specified key (the id of the post we deleted in this case)
+			console.log('omitting', id, _.omit(state, id));
+			return _.omit(state, id);
 		default:
 			return state;
 	}
