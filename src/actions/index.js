@@ -45,7 +45,8 @@ export function fetchPost(id) {
 export function createPost(blogPost, callback) {
 	console.log('createPost action creator hit', blogPost);
 	const url = `${BASE_URL}/posts${API_KEY}`
-	const request = axios.post(url, blogPost).then(() => callback());
+	const request = axios.post(url, blogPost)
+		.then(() => callback());
 
 	return {
 		type: CREATE_POST,
@@ -58,12 +59,13 @@ export function createPost(blogPost, callback) {
  * @param {Number} id - id of the post to be deleted
  * @returns {Object} action of type DELETE_POST with payload of the request
  */
-export function deletePost(id) {
+export function deletePost(id, callback) {
 	const url = `${BASE_URL}/posts/${id}${API_KEY}`;
-	const request = axios.delete(url);
+	const request = axios.delete(url)
+		.then(() => callback());
 	
 	return {
 		type: DELETE_POST,
-		payload: request
+		payload: id
 	}
 }

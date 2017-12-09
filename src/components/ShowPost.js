@@ -25,8 +25,12 @@ class ShowPost extends Component {
 		const userConfirms = confirm('Are you absolutely 100% certain that you would like to delete this post?');
 		if (userConfirms) {
 			alert('DELETING THE POST!!!');
+			// better NOT to assume that this.props.post exists
+			// this.props.match.params will definitely exist, there will be a delay with this.props.post
 			const { id } = this.props.match.params;
-			this.props.deletePost(id);
+			this.props.deletePost(id, () => {
+				this.props.history.push('/');
+			});
 		} else {
 			alert('OK, we\'ll keep the post...');
 		}
