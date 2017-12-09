@@ -15,7 +15,7 @@ export default function(state = {}, action) {
 			return posts;
 		// include an additional case for the instance of fetching a single post as opposed to fetching the entire list of posts
 		case FETCH_POST:
-			console.log('FETCH_POST action data', action.payload.data);
+			console.log('FETCH_POST action', action);
 			// return an object with the individually fetched post along with all of the original posts data, if any
 			// LONG FORM
 			// const newState = {...state};

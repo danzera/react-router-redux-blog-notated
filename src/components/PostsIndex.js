@@ -38,7 +38,7 @@ class PostsIndex extends Component {
 		// in the case of an object, _.map() iterates over all key value pairs and the callback receives parameters (value, key, originalObject)
 		return _.map(this.props.posts, (post, id, posts) => {
 			// construct link for each post to use in JSX
-			const link = `/posts/${id}`
+			const link = `/posts/${id}`;
 			return (
 				<Link to={link} key={id}>
 					<li className="list-group-item">

@@ -7,6 +7,10 @@ h1 {
 	text-align: center;
 }
 
+h3 {
+	margin-top: 20px !important;
+}
+
 small {
 	color: red !important;
 }

@@ -3,6 +3,7 @@ import axios from 'axios';
 export const FETCH_POSTS = 'FETCH_POSTS';
 export const FETCH_POST = 'FETCH_POST';
 export const CREATE_POST = 'CREATE_POST';
+export const DELETE_POST = 'DELETE_POST';
 
 const BASE_URL = 'https://reduxblog.herokuapp.com/api';
 const API_KEY = '?key=danqzera';
@@ -48,6 +49,21 @@ export function createPost(blogPost, callback) {
 
 	return {
 		type: CREATE_POST,
+		payload: request
+	}
+}
+
+/**
+ * Sends a request to the API to delete a blog post.
+ * @param {Number} id - id of the post to be deleted
+ * @returns {Object} action of type DELETE_POST with payload of the request
+ */
+export function deletePost(id) {
+	const url = `${BASE_URL}/posts/${id}${API_KEY}`;
+	const request = axios.delete(url);
+	
+	return {
+		type: DELETE_POST,
 		payload: request
 	}
 }

@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchPost } from '../actions';
+import { fetchPost, deletePost } from '../actions';
 import { Link } from 'react-router-dom';
 
 class ShowPost extends Component {
+	constructor(props) {
+		super(props);
+		this.delete = this.delete.bind(this);
+	}
 	componentDidMount() {
 		// THIS IS WHERE WE FETCH OUR DATA!!!
 		// action creator & reducer handle the assigning of data to our state
@@ -13,6 +17,23 @@ class ShowPost extends Component {
 		// (using more ES6 destructuring to pull the id off of the route params object)
 		const { id } = this.props.match.params;
 		this.props.fetchPost(id);
+		// NOTE: if we were concerned with network usage for whatever reason
+		// we could wrap the above statements in an if statement in order to prevent data from being fetched 
+		// i.e. if (!this.props.post)
+		// in the case of the user having already retrieved the post via the list of all posts on the index page, for example
+		// however, it is generally good practice to assume data is stale when changing pages
+		// and to fetch it anew
+	}
+
+	onDeleteClick() {
+		const userConfirms = confirm('Are you absolutely 100% certain that you would like to delete this post?');
+		if (userConfirms) {
+			alert('DELETING THE POST!!!');
+			const { id } = this.props.match.params;
+			this.props.deletePost(id);
+		} else {
+			alert('OK, we\'ll keep the post...');
+		}
 	}
 
 	render() {
@@ -30,6 +51,8 @@ class ShowPost extends Component {
 				<h3>{post.title}</h3>
 				<h6>Categories: {post.categories}</h6>
 				<p>{post.content}</p>
+				<button className="btn btn-danger pull-xs-right"
+					onClick={this.onDeleteClick}>Delete Post</div>
 			</div>
 		);
 	}
@@ -47,4 +70,4 @@ function mapStateToProps({ posts }, ownProps) {
 	return { post: posts[ownProps.match.params.id] };
 }
 
-export default connect(mapStateToProps, { fetchPost })(ShowPost);
+export default connect(mapStateToProps, { fetchPost, deletePost })(ShowPost);
